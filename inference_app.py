@@ -4,6 +4,8 @@
 # An object of Flask class is our WSGI application.
 import argparse
 
+from pyjion.wsgi import PyjionWsgiMiddleware
+
 from flask import Flask, json, jsonify, render_template, request
 from utils import (
     CompletionGenerator,
@@ -15,7 +17,8 @@ from utils import (
 # Flask constructor takes the name of
 # current module (__name__) as argument.
 app = Flask(__name__)
-
+# Override the app wsgi_app property
+app.wsgi_app = PyjionWsgiMiddleware(app.wsgi_app)
 
 @app.route("/")
 def home():

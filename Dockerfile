@@ -2,7 +2,15 @@
 
 FROM huggingface/transformers-pytorch-gpu
 
+RUN apt install -y wget
+RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN apt update 
+RUN rm packages-microsoft-prod.deb
+RUN apt-get install -y dotnet-runtime-7.0
+
 COPY ./requirements.txt /app/requirements.txt
+
 
 # switch working directory
 WORKDIR /app
